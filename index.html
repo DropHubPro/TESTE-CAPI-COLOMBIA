@@ -25,9 +25,14 @@
 <body style="font-family: sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4;">
     <div style="background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         <h2>FINALIZAR COMPRA (TESTE COD)</h2>
-        <input type="text" id="firstName" placeholder="NOME" style="display: block; width: 100%; margin: 10px 0; padding: 10px;">
-        <input type="text" id="phone" placeholder="TELEFONE (COLOMBIA)" style="display: block; width: 100%; margin: 10px 0; padding: 10px;">
-        <button id="btnFinalizar" style="width: 100%; padding: 15px; background: #25d366; color: white; border: none; font-weight: bold; cursor: pointer;">
+        
+        <!-- NOVOS CAMPOS ADICIONADOS AQUI -->
+        <input type="text" id="firstName" placeholder="NOME" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="lastName" placeholder="SOBRENOME" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="email" id="email" placeholder="EMAIL" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="phone" placeholder="TELEFONE (COLOMBIA)" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        
+        <button id="btnFinalizar" style="width: 100%; padding: 15px; background: #25d366; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px;">
             ENVIAR PEDIDO DE TESTE
         </button>
         <p id="status" style="margin-top: 15px; font-weight: bold;"></p>
@@ -44,10 +49,14 @@
     document.getElementById('btnFinalizar').onclick = async function() {
         const btn = this;
         const eventId = 'test_' + Date.now();
+        
+        // CAPTURANDO TODOS OS DADOS DO FORMULÁRIO
         const nome = document.getElementById('firstName').value;
+        const sobrenome = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
         const tel = document.getElementById('phone').value;
 
-        // PUXANDO OS COOKIES EXATAMENTE AQUI, DEPOIS DE CLICAR E ANTES DE ENVIAR
+        // PUXANDO OS COOKIES EXATAMENTE AQUI
         const fbpCookie = getCookie('_fbp');
         const fbcCookie = getCookie('_fbc');
 
@@ -66,6 +75,8 @@
                     event_name: 'Purchase',
                     event_id: eventId,
                     firstName: nome,
+                    lastName: sobrenome, // ADICIONADO NO PAYLOAD
+                    email: email,        // ADICIONADO NO PAYLOAD
                     phone: tel,
                     fbp: fbpCookie, 
                     fbc: fbcCookie, 
