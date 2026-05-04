@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1679209360077717');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1679209360077717&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
     <meta charset="UTF-8">
     <title>TESTE CAPI COLOMBIA - DROPHUB</title>
+    
+    <!-- Meta Pixel Code (CORRETO E ÚNICO) -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
     n.queue=[];t=b.createElement(e);t.async=!0;
-    s=b.getElementsByTagName(e)[0];
+    t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    
-    fbq('init', '1679209360077717'); // SEU PIXEL ID
+    fbq('init', '1679209360077717');
     fbq('track', 'PageView');
     </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1679209360077717&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 <body style="font-family: sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4;">
     <div style="background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -60,7 +48,7 @@ src="https://www.facebook.com/tr?id=1679209360077717&ev=PageView&noscript=1"
 
         // 2. DISPARO SERVIDOR (N8N)
         try {
-            await fetch('https://n8n.drophubpro.com.br/webhook-test/meta-conversion-api', { // SEU WEBHOOK
+            await fetch('https://n8n.drophubpro.com.br/webhook-test/meta-conversion-api', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -68,7 +56,7 @@ src="https://www.facebook.com/tr?id=1679209360077717&ev=PageView&noscript=1"
                     event_id: eventId,
                     firstName: nome,
                     phone: tel,
-                    test_event_code: 'TEST76749' // SEU CÓDIGO DE TESTE
+                    test_event_code: 'TEST76749' 
                 })
             });
             document.getElementById('status').style.color = "green";
