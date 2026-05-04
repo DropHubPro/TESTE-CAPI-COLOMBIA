@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>TESTE CAPI COLOMBIA - DROPHUB</title>
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    fbq('init', '1679209360077717'); // SEU PIXEL ID
+    fbq('track', 'PageView');
+    </script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4;">
+    <div style="background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h2>FINALIZAR COMPRA (TESTE COD)</h2>
+        <input type="text" id="firstName" placeholder="NOME" style="display: block; width: 100%; margin: 10px 0; padding: 10px;">
+        <input type="text" id="phone" placeholder="TELEFONE (COLOMBIA)" style="display: block; width: 100%; margin: 10px 0; padding: 10px;">
+        <button id="btnFinalizar" style="width: 100%; padding: 15px; background: #25d366; color: white; border: none; font-weight: bold; cursor: pointer;">
+            ENVIAR PEDIDO DE TESTE
+        </button>
+        <p id="status" style="margin-top: 15px; font-weight: bold;"></p>
+    </div>
+
+    <script>
+    document.getElementById('btnFinalizar').onclick = async function() {
+        const btn = this;
+        const eventId = 'test_' + Date.now();
+        const nome = document.getElementById('firstName').value;
+        const tel = document.getElementById('phone').value;
+
+        btn.disabled = true;
+        document.getElementById('status').innerText = "Processando...";
+
+        // 1. DISPARO NAVEGADOR
+        fbq('track', 'Purchase', { currency: 'COP', value: 50000 }, { eventID: eventId });
+
+        // 2. DISPARO SERVIDOR (N8N)
+        try {
+            await fetch('https://n8n.drophubpro.com.br/webhook-test/meta-conversion-api', { // SEU WEBHOOK
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    event_name: 'Purchase',
+                    event_id: eventId,
+                    firstName: nome,
+                    phone: tel,
+                    test_event_code: 'TEST76749' // SEU CÓDIGO DE TESTE
+                })
+            });
+            document.getElementById('status').style.color = "green";
+            document.getElementById('status').innerText = "SUCESSO! DADOS ENVIADOS.";
+        } catch (e) {
+            document.getElementById('status').style.color = "red";
+            document.getElementById('status').innerText = "ERRO NO ENVIO.";
+        } finally {
+            btn.disabled = false;
+        }
+    };
+    </script>
+</body>
+</html>
