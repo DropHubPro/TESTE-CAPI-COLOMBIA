@@ -34,17 +34,22 @@
     </div>
 
     <script>
-        // FUNÇÃO PARA LER COOKIES DO NAVEGADOR
-function getCookie(name) {
-    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    if (match) return match[2];
-    return "";
-}
+    // FUNÇÃO PARA LER COOKIES DO NAVEGADOR
+    function getCookie(name) {
+        let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) return match[2];
+        return "";
+    }
+
     document.getElementById('btnFinalizar').onclick = async function() {
         const btn = this;
         const eventId = 'test_' + Date.now();
         const nome = document.getElementById('firstName').value;
         const tel = document.getElementById('phone').value;
+
+        // PUXANDO OS COOKIES EXATAMENTE AQUI, DEPOIS DE CLICAR E ANTES DE ENVIAR
+        const fbpCookie = getCookie('_fbp');
+        const fbcCookie = getCookie('_fbc');
 
         btn.disabled = true;
         document.getElementById('status').innerText = "Processando...";
@@ -58,14 +63,14 @@ function getCookie(name) {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-    event_name: 'Purchase',
-    event_id: eventId,
-    firstName: nome,
-    phone: tel,
-    fbp: fbpCookie, // MANDANDO O BROWSER ID
-    fbc: fbcCookie, // MANDANDO O CLICK ID
-    test_event_code: 'SEU_CODIGO_DE_TESTE_AQUI' 
-})
+                    event_name: 'Purchase',
+                    event_id: eventId,
+                    firstName: nome,
+                    phone: tel,
+                    fbp: fbpCookie, 
+                    fbc: fbcCookie, 
+                    test_event_code: 'TEST76749' // MUDE SE O CÓDIGO DA META ATUALIZAR
+                })
             });
             document.getElementById('status').style.color = "green";
             document.getElementById('status').innerText = "SUCESSO! DADOS ENVIADOS.";
