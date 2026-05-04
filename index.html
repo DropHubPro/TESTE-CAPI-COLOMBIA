@@ -58,12 +58,14 @@ function getCookie(name) {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    event_name: 'Purchase',
-                    event_id: eventId,
-                    firstName: nome,
-                    phone: tel,
-                    test_event_code: 'TEST76749' 
-                })
+    event_name: 'Purchase',
+    event_id: eventId,
+    firstName: nome,
+    phone: tel,
+    fbp: fbpCookie, // MANDANDO O BROWSER ID
+    fbc: fbcCookie, // MANDANDO O CLICK ID
+    test_event_code: 'SEU_CODIGO_DE_TESTE_AQUI' 
+})
             });
             document.getElementById('status').style.color = "green";
             document.getElementById('status').innerText = "SUCESSO! DADOS ENVIADOS.";
