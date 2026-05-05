@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>TESTE CAPI COLOMBIA - DROPHUB</title>
     
-    <!-- Meta Pixel Code (CORRETO E ÚNICO) -->
     <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -20,53 +19,83 @@
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=1679209360077717&ev=PageView&noscript=1"
     /></noscript>
-    <!-- End Meta Pixel Code -->
-</head>
+    </head>
 <body style="font-family: sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4;">
-    <div style="background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        <h2>FINALIZAR COMPRA (TESTE COD)</h2>
+    <div style="background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px;">
+        <h2>COMPLETA TU PEDIDO (TESTE)</h2>
         
-        <!-- NOVOS CAMPOS ADICIONADOS AQUI -->
-        <input type="text" id="firstName" placeholder="NOME" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
-        <input type="text" id="lastName" placeholder="SOBRENOME" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
-        <input type="email" id="email" placeholder="EMAIL" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
-        <input type="text" id="phone" placeholder="TELEFONE (COLOMBIA)" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="Nombre" placeholder="Nombre" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="Apellido" placeholder="Apellido" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="WhatsApp" placeholder="Número de WhatsApp" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
         
-        <button id="btnFinalizar" style="width: 100%; padding: 15px; background: #25d366; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px;">
-            ENVIAR PEDIDO DE TESTE
+        <input type="text" id="Departamento" placeholder="Departamento" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="Ciudad" placeholder="Ciudad (Ej: Melgar)" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="Barrio" placeholder="Barrio (Ej: Barrio Olaya)" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="Direccion" placeholder="Dirección (Ej: Calle 4 # 9-17)" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        <input type="text" id="Apto" placeholder="Torre y Apto (Si Aplica)" style="display: block; width: 100%; margin: 10px 0; padding: 10px; box-sizing: border-box;">
+        
+        <button id="btnFinalizar" style="width: 100%; padding: 15px; background: #128c7e; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 5px;">
+            COMPLETA TU PEDIDO - $109.900
         </button>
         <p id="status" style="margin-top: 15px; font-weight: bold;"></p>
     </div>
 
     <script>
-    // FUNÇÃO PARA LER COOKIES DO NAVEGADOR
+    // FUNÇÃO PARA LER COOKIES DO NAVEGADOR (FBP E FBC)
     function getCookie(name) {
         let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
         if (match) return match[2];
         return "";
     }
 
+    // FUNÇÃO PARA LER PARÂMETROS DA URL (UTMS E META IDS)
+    function getURLParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param) || "";
+    }
+
     document.getElementById('btnFinalizar').onclick = async function() {
         const btn = this;
         const eventId = 'test_' + Date.now();
+        const valorTotal = 109900;
         
-        // CAPTURANDO TODOS OS DADOS DO FORMULÁRIO
-        const nome = document.getElementById('firstName').value;
-        const sobrenome = document.getElementById('lastName').value;
-        const email = document.getElementById('email').value;
-        const tel = document.getElementById('phone').value;
+        // 1. GERANDO OU RECUPERANDO O EXTERNAL ID (RG DO CLIENTE)
+        let externalId = localStorage.getItem('drophub_user_id');
+        if (!externalId) {
+            externalId = 'usr_' + Date.now() + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('drophub_user_id', externalId);
+        }
 
-        // PUXANDO OS COOKIES EXATAMENTE AQUI
+        // 2. CAPTURANDO TODOS OS DADOS DIGITADOS NO FORMULÁRIO
+        const nome = document.getElementById('Nombre').value;
+        const apellido = document.getElementById('Apellido').value;
+        const whatsapp = document.getElementById('WhatsApp').value;
+        const departamento = document.getElementById('Departamento').value;
+        const ciudad = document.getElementById('Ciudad').value;
+        const barrio = document.getElementById('Barrio').value;
+        const direccion = document.getElementById('Direccion').value;
+        const apto = document.getElementById('Apto').value;
+
+        // 3. PUXANDO OS COOKIES
         const fbpCookie = getCookie('_fbp');
         const fbcCookie = getCookie('_fbc');
+
+        // 4. PUXANDO AS UTMS E IDS DA META DA URL
+        const utm_source = getURLParam('utm_source');
+        const utm_medium = getURLParam('utm_medium');
+        const utm_campaign = getURLParam('utm_campaign');
+        const utm_content = getURLParam('utm_content');
+        const ad_id = getURLParam('ad_id');
+        const adset_id = getURLParam('adset_id');
+        const campaign_id = getURLParam('campaign_id');
 
         btn.disabled = true;
         document.getElementById('status').innerText = "Processando...";
 
-        // 1. DISPARO NAVEGADOR
-        fbq('track', 'Purchase', { currency: 'COP', value: 50000 }, { eventID: eventId });
+        // DISPARO DO NAVEGADOR COM O EXTERNAL_ID ADICIONADO
+        fbq('track', 'Purchase', { currency: 'COP', value: valorTotal }, { eventID: eventId, external_id: externalId });
 
-        // 2. DISPARO SERVIDOR (N8N)
+        // DISPARO PARA O SERVIDOR (N8N) COM O PACOTE COMPLETO
         try {
             await fetch('https://n8n.drophubpro.com.br/webhook-test/meta-conversion-api', {
                 method: 'POST',
@@ -74,12 +103,33 @@
                 body: JSON.stringify({
                     event_name: 'Purchase',
                     event_id: eventId,
+                    external_id: externalId,
+                    
+                    // DADOS PARA A META CRIPTOGRAFAR (API)
                     firstName: nome,
-                    lastName: sobrenome, // ADICIONADO NO PAYLOAD
-                    email: email,        // ADICIONADO NO PAYLOAD
-                    phone: tel,
+                    lastName: apellido,
+                    phone: whatsapp,
+                    city: ciudad,
+                    state: departamento,
+                    country: 'co', // FIXADO PARA COLÔMBIA
+                    
+                    // DADOS EXTRAS PARA O SEU BANCO DE DADOS (SUPABASE)
+                    neighborhood: barrio,
+                    address: direccion,
+                    apartment: apto,
+                    
+                    // COOKIES E RASTREAMENTO
                     fbp: fbpCookie, 
                     fbc: fbcCookie, 
+                    utm_source: utm_source,
+                    utm_medium: utm_medium,
+                    utm_campaign: utm_campaign,
+                    utm_content: utm_content,
+                    ad_id: ad_id,
+                    adset_id: adset_id,
+                    campaign_id: campaign_id,
+                    value: valorTotal,
+                    
                     test_event_code: 'TEST76749' // MUDE SE O CÓDIGO DA META ATUALIZAR
                 })
             });
